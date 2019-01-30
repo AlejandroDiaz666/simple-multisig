@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 contract SimpleMultiSig {
 
@@ -23,9 +23,9 @@ bytes32 constant SALT = 0x251543af6a222378665a76fe38dbceae4871a070b7fdaf5c6c30cf
   address[] public ownersArr;        // immutable state
 
   bytes32 DOMAIN_SEPARATOR;          // hash for EIP712, computed from contract address
-  
+
   // Note that owners_ must be strictly increasing, in order to prevent duplicates
-  constructor(uint threshold_, address[] owners_, uint chainId) public {
+  constructor(uint threshold_, address[] memory owners_, uint chainId) public {
     require(owners_.length <= 10 && threshold_ <= owners_.length && threshold_ > 0);
 
     address lastAdd = address(0);
@@ -46,7 +46,7 @@ bytes32 constant SALT = 0x251543af6a222378665a76fe38dbceae4871a070b7fdaf5c6c30cf
   }
 
   // Note that address recovered from signatures must be strictly increasing, in order to prevent duplicates
-  function execute(uint8[] sigV, bytes32[] sigR, bytes32[] sigS, address destination, uint value, bytes data, address executor, uint gasLimit) public {
+  function execute(uint8[] memory sigV, bytes32[] memory sigR, bytes32[] memory sigS, address destination, uint value, bytes memory data, address executor, uint gasLimit) public {
     require(sigR.length == threshold);
     require(sigR.length == sigS.length && sigR.length == sigV.length);
     require(executor == msg.sender || executor == address(0));
