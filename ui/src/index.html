@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--
+      * user interface for simple multisig wallet - written for riverdimes, inc.
+  -->
+<html>
+  <head>
+    <title>Simple MultiSig Wallet</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/style_TIMESTAMP__.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300|Roboto:300i" rel="stylesheet">
+    <script type="text/javascript" src="bundle/index_TIMESTAMP__.js"></script>
+  </head>
+
+  <body>
+    <div id="metaMaskDiv" class="metaMaskDivHide">
+      <p>
+	Waiting for MetaMask signature...
+      </p>
+    </div>
+
+    <div id="howTile">
+      <img id="howImg" src="images/question.png">
+      <p>How does this work?</p>
+    </div>
+    <div id="howModal" class="hidden">
+      <span id="howClose" class="closeX">X</span>
+      <p>
+	Welcome to the Simple MultiSig Wallet!
+      </p>
+      <p>
+	The user interface is hosted via IPFS (the InterPlanetary File System).
+      </p>
+      <p>
+	The source code is published on <a href="https://github.com/AlejandroDiaz666/simple-multisig" target="_blank">GitHub</a>
+      </p>
+      <p>
+	<h2>Thanks for using the Simple MultiSig Wallet!</h2>
+      </p>
+    </div>
+
+    <div id="ethereumTile">
+      <img id="ethereumLogo" src="images/ethereum-trans.png"/>
+      <p>Source Code</p>
+    </div>
+    <div id="creditsModal" class="hidden">
+      <span id="creditsClose" class="closeX">X</span>
+      <p>
+	Credits go here
+      </p>
+    </div>
+
+
+    <div id="topSection">
+      <span id="mainTitleSpan">
+	Simple MultiSig Wallet
+      </span>
+      <span id="versionSpan">
+	version goes here
+      </span>
+      <div id="tabularArea">
+	<div id="networkAreaDiv">
+	  <textarea id="networkArea" rows="1" cols="55" readonly="readonly">&nbsp;</textarea>
+	</div>
+	<div id="accountDiv">
+	  <textarea id="accountArea" rows="1" cols="55" readonly="readonly">&nbsp;</textarea>
+	</div>
+	<div id="balanceAreaDiv">
+	  <textarea id="balanceArea" rows="1" cols="55" readonly="readonly">&nbsp;</textarea>
+	</div>
+      </div>
+      <div id="menuBar">
+	<div id="menuDiv">
+	  <button id="newButton" type="button" class="menuBarButton">New wallet</button>
+	  <button id="loadButton" type="button" class="menuBarButton">Import Wallet</button>
+	  <button id="viewButton" type="button" class="menuBarButton">View Wallet</button>
+	  <button id="xactButton" type="button" class="menuBarButton">Transaction</button>
+	</div>
+      </div>
+    </div>
+
+
+    <div id="botSection">
+      <!--
+	  * ==================================================================================================
+	  * new wallet
+	  * ==================================================================================================
+	-->
+      <div id="newWalletDiv" class="hidden">
+	<div id="newWalletInnerDiv">
+	  <div>
+	    <span class="header">New Wallet Name</span>
+	  </div>
+	  <input id="addWalletNameInput" size="60" placeholder="Enter a name for this wallet"/>
+	  <p/>
+	  <div>
+	    <span class="header">New Owner Address and Label</span>
+	  </div>
+	  <input id="addAccountAddrInput" size="60" placeholder="Address of new account/owner"/>
+	  <input id="addAccountLabelInput" size="20" placeholder="Label for new account"/>
+	  <button id="addAccountButton" type="button" class="plainButton">Add Owner</button>
+	  <p/>
+	  <select id="thresholdSelector" placeholder="Select Threshold">
+	  </select>
+	  <p/>
+	  <div id="newWalletAccountsListHeaderDiv">
+	    <span id="newWalletAccountsListHeader" class="header">Owners</span>
+	  </div>
+	  <div id="newWalletAccountsListDiv">
+	  </div>
+	</div>
+	<button id="deployNewWalletButton" type="button" class="plainButton">Deploy This Wallet!</button>
+	<p>&nbsp;</p>
+      </div>
+
+
+      <!--
+	  * ==================================================================================================
+	  * load wallet
+	  * ==================================================================================================
+	-->
+      <div id="loadWalletDiv" class="hidden">
+	<div id="loadWalletLoadDiv">
+	  <div>
+	    <span class="header">Wallet Address</span>
+	  </div>
+	  <input id="loadWalletAddrInput" size="60" placeholder="Enter address of wallet"/>
+	  <button id="loadWalletLoadButton" type="button" class="plainButton">Load wallet from blockchain</button>
+	  <p/>
+	  <div>
+	    <span class="header">JSON</span>
+	  </div>
+	  <textarea id="loadWalletJson" rows="5" cols="95" placeholder="Enter JSON here to load wallet from JSON data">
+	  </textarea>
+	  <button id="loadWalletJsonButton" type="button" class="plainButton">Load wallet from JSON</button>
+	</div>
+	<div id="loadWalletBarDiv">
+	  <input id="loadContractNameAddr" size="70" disabled/>
+	  <input id="loadContractThreshold" size="15" disabled/>
+	  <input id="loadContractBalance" size="15" disabled/>
+	  <input id="loadContractNonce" size="15" disabled/>
+	</div>
+	<div id="loadWalletInnerDiv">
+	  <div>
+	    <span class="header">Wallet Name</span>
+	  </div>
+	  <input id="loadWalletNameInput" size="60" placeholder="Enter a name for this wallet"/>
+	  <p/>
+	  <div id="loadWalletThresholdDiv" class="hidden">
+	    <input id="loadWalletThreshold" size="15" placeholder="threshold" disabled/>
+	  </div>
+	  <p/>
+	  <div id="loadWalletAccountsListHeaderDiv" class="hidden">
+	    <span id="loadWalletAccountsListHeader" class="header">Owners</span>
+	  </div>
+	  <div id="loadWalletAccountsListDiv" class="hidden">
+	  </div>
+	</div>
+	<button id="loadWalletSaveButton" type="button" class="plainButton">Save this wallet locally</button>
+      </div>
+
+
+      <!--
+	  * ==================================================================================================
+	  * view wallet
+	  * ==================================================================================================
+	-->
+      <div id="viewWalletDiv" class="hidden">
+	<div id="viewWalletSelectorDiv">
+	  <span class="prompt">Select wallet:&nbsp;</span>
+	  <select id="viewWalletSelector" placeholder="no saved wallets">
+	  </select>
+	</div>
+	<div id="viewWalletBarDiv">
+	  <input id="viewContractNameAddr" size="70" disabled/>
+	  <input id="viewContractThreshold" size="15" disabled/>
+	  <input id="viewContractBalance" size="15" disabled/>
+	  <input id="viewContractNonce" size="15" disabled/>
+	</div>
+	<div id="viewWalletInnerDiv">
+	  <div>
+	    <span class="header">Wallet Name</span>
+	  </div>
+	  <div class="accountListFormTable">
+	    <input id="viewWalletNameInput" size="60" placeholder="Enter a name for this wallet"/>
+	  </div>
+	  <p/>
+	  <div>
+	    <span id="viewWalletAccountsListHeader" class="header">Owners</span>
+	  </div>
+	  <div id="viewWalletAccountsListDiv">
+	  </div>
+	</div>
+	<div id="viewWalletJsonDiv">
+	  <div>
+	    <span class="header">JSON</span>
+	  </div>
+	  <textarea id="viewWalletJson" rows="5" cols="95" placeholder="Wallet JSON data will be displayed here" disabled>
+	  </textarea>
+	</div>
+	<button id="viewWalletSaveButton" type="button" class="plainButton">Save this wallet locally</button>
+      </div>
+
+
+      <!--
+	  * ==================================================================================================
+	  * transaction
+	  * ==================================================================================================
+	-->
+      <div id="xactionDiv" class="hidden">
+	<div id="xactionWalletSelectorDiv">
+	  <span class="prompt">Select wallet:&nbsp;</span>
+	  <select id="xactionWalletSelector" placeholder="no saved wallets">
+	  </select>
+	</div>
+	<div id="xactionWalletBarDiv">
+	  <input id="xactionContractNameAddr" size="70" disabled/>
+	  <input id="xactionContractThreshold" size="15" disabled/>
+	  <input id="xactionContractBalance" size="15" disabled/>
+	  <input id="xactionContractNonce" size="15" disabled/>
+	</div>
+	<div id="xactionLoadDiv">
+	  <div>
+	    <span class="header">JSON</span>
+	  </div>
+	  <textarea id="xactionJsonArea" rows="5" cols="95">
+	  </textarea>
+	  <button id="xactionJsonButton" type="button" class="plainButton">Load transaction from JSON</button>
+	</div>
+	<div id="xactionOuterDiv">
+	  <div>
+	    <span id="xactionHeader" class="header">Transaction Info</span>
+	  </div>
+	  <span class="min-prompt">To:</span>
+	  <input id="xactionToInput" size="60" placeholder="To address"/>
+	  <span class="min-prompt">Value:&nbsp;</span>
+	  <input id="xactionValueInput" size="20" placeholder="Value"/>
+	  <select id="xactionUnitSelector">
+	    <option value="1">Wei</option>
+	    <option value="1000">Kwei</option>
+	    <option value="1000000">Mwei</option>
+	    <option value="1000000000">Gwei</option>
+	    <option value="1000000000000">Szabo</option>
+	    <option value="1000000000000000">Finney</option>
+	    <option value="1000000000000000000" selected>Eth</option>
+	  </select>
+	  <span class="prompt">Nonce:&nbsp;</span>
+	  <input id="xactionNonceInput" size="10" placeholder="Nonce"/>
+	  <div id="xactionDataDiv">
+	    <span class="min-prompt">Data:</span>
+	    <textarea id="xactionData" rows="3" cols="60" placeholder="Data (optional) eg. 0x0102030405...">
+	    </textarea>
+	  </div>
+	  <span class="min-prompt">Executor:</span>
+	  <input id="xactionExecutor" size="60" placeholder="Address that can execute this transaction (0x0 for anyone)"/>
+	  <span class="min-prompt">Gas limit:&nbsp;</span>
+	  <input id="xactionGasInput" size="20" placeholder="Gas limit"/>
+	</div>
+	<div id="xactionAccountsListOuterDiv">
+	  <span id="xactionAccountsListHeader" class="header">Owner Signatures</span>
+	  <div id="xactionAccountsListDiv">
+	  </div>
+	</div>
+	<button id="xactionSignButton" type="button" class="plainButton">Sign this transaction</button>
+	<button id="xactionExecuteButton" type="button" class="plainButton">Execute this transaction</button>
+	<p>&nbsp;</p>
+      </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="statusDiv" class="statusDivHide"></div>
+    <div id="bodySpacer">
+    </div>
+  </body>
+</html>

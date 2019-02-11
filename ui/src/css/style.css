@@ -1,0 +1,423 @@
+body {
+    background-image: url("../images/bkgrnd.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: gray;
+}
+
+/*
+ * modifiers to make blocks disappear and re-appear.
+ *  visibleB:  block
+ *  visibleIB: inline-block
+ *  visibleTC: table-cell (for vertical alignment)
+ */
+.visibleB, .statusDivShow, .metaMaskDivShow {
+    display: block;
+}
+.visibleIB {
+    display: inline-block;
+}
+.visibleTC {
+    display: table-cell;
+}
+.hidden, .statusDivHide, .metaMaskDivHide {
+    display: none;
+}
+
+
+#howTile, #ethereumTile {
+    position: absolute;
+    left: 100%;
+    transform: translateX(-175px);
+    background-color: rgba(240, 240, 240, 0.4);
+    width: 160px;
+    height: 135px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+}
+#howTile {
+    top: 30px;
+}
+#ethereumTile {
+    top: 170px;
+}
+
+#howTile:hover, #ethereumTile:hover {
+    cursor: pointer;
+}
+#howImg, #ethereumLogo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+}
+#howImg {
+    transform: translateX(-58px);
+}
+#ethereumLogo {
+    transform: translateX(-50px);
+}
+#howTile p, #ethereumTile p {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate3d(-50%, -200%, 0px);
+    font-size: 16px;
+    font-family: lato;
+    width: 100%;
+    text-align: center;
+}
+#howModal {
+    position: fixed;
+    width: 60%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
+    transform: translate3d(-50%, -50%, 0px);
+    background-color: whitesmoke;
+    z-index: 2;
+    font-size: 20px;
+    font-family: lato;
+    overflow-y: scroll;
+}
+.closeX {
+    float: right;
+    font-size: 25px;
+    font-family: lato;
+    font-weight: bold;
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    text-align: center;
+    position: relative;
+    top: -10px;
+}
+.closeX:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+#mainTitleSpan {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    width: fit-content;
+    height: 50px;
+    font-size: 50px;
+    transform: translateX(-50%);
+    color: black;
+}
+#versionSpan {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    width: fit-content;
+    height: 18px;
+    font-size: 18px;
+    transform: translateX(-50%);
+    color: black;
+}
+
+#topSection {
+    height: 160px;
+}
+#tabularArea {
+    position: absolute;
+    margin-top: 18px;
+    left: 5%;
+    width: fit-content;
+}
+#networkArea, #accountArea, #balanceArea {
+    resize: none;
+}
+#menuBar {
+    position: absolute;
+    top: 125px;
+    width: 90%;
+    left: 5%;
+}
+.menuBarButton, .menuBarButtonEnabled, .menuBarButtonDisabled,
+.menuBarButtonSelected, .menuBarButton:hover {
+    margin: 5px;
+    width: 15%;
+    height: 80%;
+    padding : 3px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 12px;
+}
+.menuBarButton, .menuBarButtonEnabled, .menuBarButtonDisabled {
+    background-color: #e8f0f0;
+    border: 1px solid #e8f0f0;
+}
+.menuBarButton:hover, .menuBarButtonSelected, .menuBarButtonEnabled:hover {
+    background-color: rgb(175, 180, 183);
+    border: 1px solid black;
+}
+.menuBarButton:hover, .menuBarButtonEnabled:hover {
+    cursor: pointer;
+}
+.plainButton {
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: default;
+}
+.plainButton:hover {
+    border-width: 2px;
+    border-style: inset;
+    border-color: gray;
+    cursor: pointer;
+}
+.plainButton[disabled], .plainButton[disabled]:hover, .plainButton[disabled]:focus, .plainButton[disabled]:active {
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: default;
+}
+
+
+/* message telling the user that we are waiting for metamask */
+#metaMaskDiv {
+    position: fixed;
+    z-index: 3;
+    left: 55%;
+    top: 15%;
+    width: 300px;
+    height: 50px;
+    padding: 10px;
+    overflow: none;
+    border: 1px solid #888;
+    background-color: #60ff60;
+    text-align: center;
+}
+
+.metaMaskNoPulse {
+}
+
+.metaMaskPulse {
+    -webkit-animation: mmPulse linear .5s infinite;
+    animation: mmPulse linear .5s infinite;
+}
+@-webkit-keyframes mmPulse {
+    0%   { width: 300px; height: 50px;
+	   transform: translate3d(0px, 0px, 0px); }
+    50%  { width: 320px; height: 60px;
+	   transform: translate3d(-10px, -5px, 0px); }
+    100% { width: 300px; height: 50px;
+	   transform: translate3d(0px, 0px, 0px); }
+}
+@keyframes mmPulse {
+    0%   { width: 300px; height: 50px;
+	   transform: translate3d(0px, 0px, 0px); }
+    50%  { width: 320px; height: 60px;
+	   transform: translate3d(-10px, -5px, 0px); }
+    100% { width: 300px; height: 50px;
+	   transform: translate3d(0px, 0px, 0px); }
+
+}
+
+/* area for status of metamask transactions */
+#statusDiv {
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0px;
+    transform: translateY(-120%);
+    background-color: #60ff60;
+    padding: 15px;
+    margin: 12px;
+    width: 95%;
+}
+
+
+#botSection {
+    position: relative;
+    top: 0px;
+}
+#newWalletDiv, #loadWalletDiv, #viewWalletDiv, #xactionDiv {
+    position: absolute;
+    left: 5%;
+    margin-top: 40px;
+    border: none;
+    padding: 0px;
+    z-index: 0;
+    height: 100%;
+}
+#newWalletInnerDiv, #loadWalletLoadDiv, #loadWalletInnerDiv,
+#viewWalletInnerDiv, #xactionLoadDiv, #xactionOuterDiv, #xactionAccountsListOuterDiv {
+    border: 2px solid #b8dcd4;
+    margin-top: 10px;
+    padding-top: 19px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+#loadWalletLoadDiv {
+    margin-bottom: 10px;
+}
+#loadWalletLoadButton {
+    margin-left: 21em;
+    width: 14em;
+    text-align: left;
+}
+#loadWalletJsonButton {
+    vertical-align: top;
+    width: 14em;
+    text-align: left;
+}
+#xactionJsonButton {
+    vertical-align: top;
+}
+
+/*
+ * add wallet
+ */
+#addWalletNameInput {
+}
+#addWalletNameInput, #addAccountAddrInput, #thresholdSelector {
+    margin-left: 9px;
+}
+#addAccountButton {
+    margin-right: 9px;
+}
+
+
+/*
+ * view/load wallet & xaction
+ */
+#viewWalletSelectorDiv,
+#xactionWalletSelectorDiv {
+    margin-left: 0px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+}
+
+
+/* wallet-bar shows general wallet info: address, balance, etc */
+#viewWalletBarDiv,
+#loadWalletBarDiv,
+#xactionWalletBarDiv {
+    background: #b8dcd4;
+    width: 100%
+    margin: 12px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+#viewContractNameAddr, #viewContractThreshold, #viewContractBalance, #viewContractNonce,
+#loadContractNameAddr, #loadContractThreshold, #loadContractBalance, #loadContractNonce,
+#xactionContractNameAddr, #xactionContractThreshold, #xactionContractBalance, #xactionContractNonce {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float:left;
+    margin-left: 0px;
+    padding: 10px;
+}
+
+#viewWalletJsonDiv {
+    border: 2px solid #b8dcd4;
+    margin-top: 10px;
+    padding-top: 19px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+#loadWalletJson,
+#viewWalletJson,
+#xactionJsonArea {
+    resize: none;
+    overflow-y: scroll;
+}
+
+
+#xactionToInput, #xactionUnitSelector, #xactionNonceInput, #xactionData, #xactionExecutor {
+    margin-right: 20px;
+    font-size: 14px;
+}
+#xactionData {
+    vertical-align: middle;
+}
+#xactionValueInput {
+    margin-right: 1px;
+    font-size: 14px;
+}
+#xactionAccountsListDiv {
+    overflow: hidden;
+}
+#xactionData {
+    resize: none;
+    overflow-y: scroll;
+}
+
+/*
+ * for subtitles above sections. eg. 'Accounts', 'Transaction Info'
+ */
+span.header {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/*
+ * for prompts that precede input boxes. eg. 'To:'
+ */
+span.prompt {
+    font-family: 'Arial';
+    font-size: 14px;
+    font-weight: normal;
+    vertical-align: top;
+}
+span.min-prompt {
+    font-family: 'Arial';
+    font-size: 14px;
+    font-weight: normal;
+    vertical-align: top;
+    display: inline-block;
+    min-width: 5em;
+}
+
+
+/*
+ * wherever we list accounts
+ */
+DIV.accountListFormTable {
+    display:table;
+    background: #949494;
+    padding: 2px;
+    margin: 2px;
+}
+SPAN.accountListTD {
+    display:table-cell;
+    font-size:14px;
+    width: 100%;
+    padding: 4px;
+    vertical-align: middle;
+}
+
+/*
+ * this row is used for every variety of formtable
+ */
+DIV.tr {
+    display:table-row;
+    width: 100%;
+}
+
+
+/* table modifiers for pretty dynamic forms */
+DIV.formtable         { display:table; background: #b7995d; padding: 2px; margin: 2px; }
+DIV.resultstable      { display:table; background: #858585; padding: 2px; margin: 2px; }
+Button.formtable      { font-size:24px; text-align: center; }
+SPAN.td               { display:table-cell; font-size:24px; width: 100%; padding: 2px;  }
+SPAN.tdvc             { display:table-cell; font-size:24px; width: 100%; padding: 2px; vertical-align: middle; }

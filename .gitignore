@@ -1,3 +1,6 @@
-node_modules
-build
-*.orig
+*~
+ui/build/*
+ui/node_modules/*
+ui/node_modules/*
+ui/src/js/autoVersion.js
+ui/src/js/autoVersion.txt
