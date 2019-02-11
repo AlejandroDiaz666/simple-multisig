@@ -21,6 +21,99 @@ const smsEther = module.exports = {
     '0x251543af6a222378665a76fe38dbceae4871a070b7fdaf5c6c30cf758dc33cc0',
 
 
+    source:
+    '\
+	<p>\
+	  The multi-sig wallet that is deployed by this front-end was compiled from the Simple MultiSig Wallet Contract written by Christian Lundkvist.\
+	  Mr. Lundkvist presented the idea <a href="https://medium.com/@ChrisLundkvist/exploring-simpler-ethereum-multisig-contracts-b71020c19037" target="_blank">here</a>.\
+	</p>\
+	<p>\
+	  Mr. Lundkvist\'s code is available on <a href="https://github.com/christianlundkvist/simple-multisig" target="_blank">Christian Lundkvist\'s github</a>, while\
+	  the forked respoitory, which contains this user interface is available\
+	  on <a href="https://github.com/AlejandroDiaz666/simple-multisig" target="_blank">Alejandro Diaz\'s github</a>.\
+	</p>\
+	<p>\
+	  The contract source code is reproduced below for your reference:</br>\
+	</p>\
+	<p class="code">\
+pragma solidity ^0.5.0;<br/>\
+<br/>\
+contract SimpleMultiSig {<br/>\
+<br/>\
+// EIP712 Precomputed hashes:<br/>\
+// keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract,bytes32 salt)")<br/>\
+bytes32 constant EIP712DOMAINTYPE_HASH = 0xd87cd6ef79d4e2b95e15ce8abf732db51ec771f1ca2edccf22a46c729ac56472;<br/>\
+<br/>\
+// kekkac256("Simple MultiSig")<br/>\
+bytes32 constant NAME_HASH = 0xb7a0bfa1b79f2443f4d73ebb9259cddbcd510b18be6fc4da7d1aa7b1786e73e6;<br/>\
+<br/>\
+// kekkac256("1")<br/>\
+bytes32 constant VERSION_HASH = 0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6;<br/>\
+<br/>\
+// kekkac256("MultiSigTransaction(address destination,uint256 value,bytes data,uint256 nonce,address executor,uint256 gasLimit)")<br/>\
+bytes32 constant TXTYPE_HASH = 0x3ee892349ae4bbe61dce18f95115b5dc02daf49204cc602458cd4c1f540d56d7;<br/>\
+<br/>\
+bytes32 constant SALT = 0x251543af6a222378665a76fe38dbceae4871a070b7fdaf5c6c30cf758dc33cc0;<br/>\
+<br/>\
+  uint public nonce;                 // (only) mutable state<br/>\
+  uint public threshold;             // immutable state<br/>\
+  mapping (address => bool) isOwner; // immutable state<br/>\
+  address[] public ownersArr;        // immutable state<br/>\
+<br/>\
+  bytes32 DOMAIN_SEPARATOR;          // hash for EIP712, computed from contract address<br/>\
+<br/>\
+  // Note that owners_ must be strictly increasing, in order to prevent duplicates<br/>\
+  constructor(uint threshold_, address[] memory owners_, uint chainId) public {<br/>\
+    require(owners_.length <= 10 && threshold_ <= owners_.length && threshold_ > 0);<br/>\
+<br/>\
+    address lastAdd = address(0);<br/>\
+    for (uint i = 0; i < owners_.length; i++) {<br/>\
+      require(owners_[i] > lastAdd);<br/>\
+      isOwner[owners_[i]] = true;<br/>\
+      lastAdd = owners_[i];<br/>\
+    }<br/>\
+    ownersArr = owners_;<br/>\
+    threshold = threshold_;<br/>\
+<br/>\
+    DOMAIN_SEPARATOR = keccak256(abi.encode(EIP712DOMAINTYPE_HASH,<br/>\
+                                            NAME_HASH,<br/>\
+                                            VERSION_HASH,<br/>\
+                                            chainId,<br/>\
+                                            this,<br/>\
+                                            SALT));<br/>\
+  }<br/>\
+<br/>\
+  // Note that address recovered from signatures must be strictly increasing, in order to prevent duplicates<br/>\
+  function execute(uint8[] memory sigV, bytes32[] memory sigR, bytes32[] memory sigS, address destination, uint value, bytes memory data, address executor, uint gasLimit) public {<br/>\
+    require(sigR.length == threshold);<br/>\
+    require(sigR.length == sigS.length && sigR.length == sigV.length);<br/>\
+    require(executor == msg.sender || executor == address(0));<br/>\
+<br/>\
+    // EIP712 scheme: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md<br/>\
+    bytes32 txInputHash = keccak256(abi.encode(TXTYPE_HASH, destination, value, keccak256(data), nonce, executor, gasLimit));<br/>\
+    bytes32 totalHash = keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, txInputHash));<br/>\
+<br/>\
+    address lastAdd = address(0); // cannot have address(0) as an owner<br/>\
+    for (uint i = 0; i < threshold; i++) {<br/>\
+      address recovered = ecrecover(totalHash, sigV[i], sigR[i], sigS[i]);<br/>\
+      require(recovered > lastAdd && isOwner[recovered]);<br/>\
+      lastAdd = recovered;<br/>\
+    }<br/>\
+<br/>\
+    // If we make it here all signatures are accounted for.<br/>\
+    // The address.call() syntax is no longer recommended, see:<br/>\
+    // https://github.com/ethereum/solidity/issues/2884<br/>\
+    nonce = nonce + 1;<br/>\
+    bool success = false;<br/>\
+    assembly { success := call(gasLimit, destination, value, add(data, 0x20), mload(data), 0, 0) }<br/>\
+    require(success);<br/>\
+  }<br/>\
+<br/>\
+  function () payable external {}<br/>\
+}<br/>\
+',
+
+
     abiEncodeConstructorParms: function(thresholdHex, owners, chainId) {
 	if (thresholdHex.startsWith('0x'))
 	    thresholdHex = thresholdHex.substring(2);

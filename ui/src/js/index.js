@@ -1,6 +1,8 @@
 
 const common = require('./common');
 const ether = require('./ether');
+const smsEther = require('./smsEther');
+const smsUtil = require('./smsUtil');
 const newWallet = require('./newWallet');
 const viewWallet = require('./viewWallet');
 const loadWallet = require('./loadWallet');
@@ -32,14 +34,13 @@ const index = module.exports = {
 
 
 function setCommonButtonHandlers() {
-    const newButton = document.getElementById('newButton');
-    newButton.addEventListener('click', newWallet.doNewWallet);
-    const loadButton = document.getElementById('loadButton');
-    loadButton.addEventListener('click', loadWallet.doLoadWallet);
-    const viewButton = document.getElementById('viewButton');
-    viewButton.addEventListener('click', viewWallet.doViewWallet);
-    const xactButton = document.getElementById('xactButton');
-    xactButton.addEventListener('click', xaction.doXaction);
+    document.getElementById('newButton').addEventListener('click', newWallet.doNewWallet);
+    document.getElementById('loadButton').addEventListener('click', loadWallet.doLoadWallet);
+    document.getElementById('viewButton').addEventListener('click', viewWallet.doViewWallet);
+    document.getElementById('xactButton').addEventListener('click', xaction.doXaction);
+    document.getElementById('howTile').addEventListener('click', () => showBigModal(smsUtil.help));
+    document.getElementById('ethereumTile').addEventListener('click', () => showBigModal(smsEther.source));
+    document.getElementById('bigModalClose').addEventListener('click', () => showBigModal(null));
 }
 
 
@@ -114,7 +115,6 @@ function handleUnlockedMetaMask(mode) {
 	} else {
 	    common.localStoragePrefix = ether.chainId + '-' + (common.web3.eth.accounts[0]).substring(2, 10) + '-';
 	    networkArea.value = 'Network: ' + network;
-	    smsEther.setNetwork(network);
 	    if (network.startsWith('Mainnet'))
 		networkArea.className = (networkArea.className).replace('attention', '');
 	    else if (networkArea.className.indexOf(' attention' < 0))
@@ -133,19 +133,13 @@ function handleUnlockedMetaMask(mode) {
 }
 
 
-function disableAllButtons() {
-    common.setMenuButtonState('newButton',  'Disabled');
-    common.setMenuButtonState('loadButton', 'Disabled');
-    common.setMenuButtonState('viewButton', 'Disabled');
-    common.setMenuButtonState('xactButton', 'Disabled');
-
-    document.getElementById('AopnCurPurchaseButton').disabled = true;
-    document.getElementById('BopnCurPurchaseButton').disabled = true;
-    document.getElementById('withdrawAButton').disabled = true;
-    document.getElementById('withdrawBButton').disabled = true;
-    document.getElementById('AclsPrvClaimWinButton').disabled = true;
-    document.getElementById('BclsPrvClaimWinButton').disabled = true;
-    document.getElementById('AplpRedeemButton').disabled = true;
-    document.getElementById('BplpRedeemButton').disabled = true;
-    document.getElementById('withdrawDividendsButton').disabled = true;
+function showBigModal(content) {
+    var bigModalContent = document.getElementById('bigModalContent');
+    common.clearDivChildren(bigModalContent);
+    if (!!content) {
+	bigModalContent.innerHTML = content;
+	common.replaceElemClassFromTo('bigModal', 'hidden', 'visibleB', true);
+    } else {
+	common.replaceElemClassFromTo('bigModal', 'visibleB', 'hidden', true)
+    }
 }
