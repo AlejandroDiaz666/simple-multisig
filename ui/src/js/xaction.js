@@ -113,7 +113,7 @@ function xactionWalletView(contractAddr) {
     document.getElementById('xactionExecutor').value = '';
     document.getElementById('xactionGasInput').value = '21000';
     var xactionAccountsListDiv = document.getElementById('xactionAccountsListDiv');
-    xaction.signatureInputs = smsUtil.listAccounts(xactionAccountsListDiv, wallet.ownerAddrs, wallet.ownerLabels, null, [], savableChangeHandler);
+    xaction.signatureInputs = smsUtil.listAccounts(xactionAccountsListDiv, wallet.ownerAddrs, wallet.ownerLabels, null, [], signatureHandler);
     for (let i = 0; i < xaction.signatureInputs.length; ++i) {
 	if (wallet.ownerAddrs[i].toLowerCase() == common.web3.eth.accounts[0].toLowerCase())
             xaction.mySigInput = xaction.signatureInputs[i];
@@ -180,7 +180,7 @@ function loadJsonHandler() {
     document.getElementById('xactionNonceInput').value = transaction.nonce;
     document.getElementById('xactionExecutor').value = transaction.executor;
     document.getElementById('xactionGasInput').value = transaction.gasLimit;
-    if (savableChangeHandler()) {
+    if (savableChangeHandler(false)) {
 	for (let i = 0; i < xaction.signatureInputs.length; ++i) {
 	    if (transaction.signatures && transaction.signatures.length >= i && !!transaction.signatures[i])
 		xaction.signatureInputs[i].value = transaction.signatures[i];
@@ -260,16 +260,21 @@ function executorChangeHandler() {
 
 
 //
-// calls itself recursively to enable the xactionSignButton if all fields are properly filled
-// recursive calls are only needed to automatically fill in addresses from ens names.
-// returns true if no recusrive calls are needed and everything is filled-in, otherwise false
+// enable the xactionSignButton if all fields are properly filled in.
+// returns true if everything is filled-in, otherwise false
 //
-function savableChangeHandler() {
-    console.log('savableChangeHandler');
-    document.getElementById('xactionSignButton').disabled = true;
-    document.getElementById('xactionExecuteButton').disabled = true;
-    for (let i = 0; i < xaction.signatureInputs.length; ++i)
-        xaction.signatureInputs[i].value = '';
+// clearSignatures is optional, default true
+//
+function savableChangeHandler(clearSignatures) {
+    console.log('savableChangeHandler: clearSignatures = ' + clearSignatures);
+    if (clearSignatures === undefined)
+	clearSignatures = true;
+    if (clearSignatures) {
+	document.getElementById('xactionSignButton').disabled = true;
+	document.getElementById('xactionExecuteButton').disabled = true;
+	for (let i = 0; i < xaction.signatureInputs.length; ++i)
+            xaction.signatureInputs[i].value = '';
+    }
     const xactionToInput = document.getElementById('xactionToInput');
     const xactionExecutor = document.getElementById('xactionExecutor');
     let toAddr = xactionToInput.value;
@@ -293,11 +298,8 @@ function savableChangeHandler() {
 	executorAddr = executorAddr.replace(/[^\(]*\(([^]*)\).*/, "$1");
     if (!ether.validateAddr(toAddr) || !ether.validateAddr(executorAddr))
 	return(false);
-    if (!xaction.mySigInput) {
-	console.log('savableChangeHandler: 2y');
-	return(false);
-    }
-    document.getElementById('xactionSignButton').disabled = false;
+    if (!!xaction.mySigInput)
+	document.getElementById('xactionSignButton').disabled = false;
     return(true);
 }
 
@@ -305,7 +307,7 @@ function savableChangeHandler() {
 
 function signHandler() {
     console.log('signHandler');
-    if (!savableChangeHandler())
+    if (!savableChangeHandler(false))
 	return;
     const xactionToInput = document.getElementById('xactionToInput');
     let toAddr = xactionToInput.value;
