@@ -1,6 +1,4 @@
 body {
-    background-image: url("../images/bkgrnd.png");
-    background-repeat: no-repeat;
     background-size: cover;
     background-color: gray;
 }
@@ -69,14 +67,14 @@ body {
     width: 100%;
     text-align: center;
 }
-#howModal {
+#bigModal {
     position: fixed;
     width: 60%;
     height: 60%;
-    top: 50%;
+    top: 25%;
     left: 50%;
     padding: 20px;
-    transform: translate3d(-50%, -50%, 0px);
+    transform: translate3d(-50%, 0px, 0px);
     background-color: whitesmoke;
     z-index: 2;
     font-size: 20px;
@@ -98,7 +96,15 @@ body {
 .closeX:hover {
     cursor: pointer;
 }
-
+#bigModalContent {
+    margin-top: 35px;
+    margin-right: 20px;
+    margin-left: 20px
+}
+.code {
+    font-size: 18px;
+    font-family: monospace;
+}
 
 
 
