@@ -47,7 +47,14 @@ function setCommonButtonHandlers() {
 //
 async function beginTheBeguine() {
     console.log('beginTheBeguine');
-    //await doFirstIntro(false);
+    const versionSpan = document.getElementById('versionSpan');
+    const githubLink = document.createElement('a');
+    githubLink.target = '_blank';
+    githubLink.href = 'https://github.com/AlejandroDiaz666/simple-multisig';
+    githubLink.innerHTML = 'Build: ' + autoVersion.version();
+    githubLink.disabled = false;
+    versionSpan.appendChild(githubLink);
+    //
     common.checkForMetaMask(true, function(err, w3) {
 	const acct = (!err && !!w3) ? w3.eth.accounts[0] : null;
 	console.log('beginTheBeguine: checkForMetaMask acct = ' + acct);
