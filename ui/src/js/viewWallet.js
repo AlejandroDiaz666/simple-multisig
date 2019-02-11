@@ -17,6 +17,7 @@ const viewWallet = module.exports = {
 	common.replaceElemClassFromTo('loadWalletDiv',    'visibleB', 'hidden', true);
 	common.replaceElemClassFromTo('viewWalletDiv',    'hidden', 'visibleB', true);
 	common.replaceElemClassFromTo('xactionDiv',       'visibleB', 'hidden', true);
+	viewWallet.selectedWalletIdx = 0;
 	makeViewWalletForm();
     },
 
@@ -26,6 +27,7 @@ const viewWallet = module.exports = {
 	document.getElementById('viewWalletSaveButton').addEventListener('click', viewWalletSaveHandler);
     },
 
+    selectedWalletIdx: 0,
     ownerLabelInputs: null,
     walletToSave: null,
 };
@@ -45,8 +47,9 @@ function makeViewWalletForm() {
 	option.value = wallet.contractAddr;
 	viewWalletSelector.appendChild(option);
     }
-    if (walletList.length > 0) {
-	viewWalletView(walletList[0]);
+    if (walletList.length > viewWallet.selectedWalletIdx) {
+	viewWalletSelector.selectedIndex = viewWallet.selectedWalletIdx;
+	viewWalletView(walletList[viewWallet.selectedWalletIdx]);
     } else {
 	const option = document.createElement("option");
 	option.text = 'No wallets in local storage';
@@ -59,6 +62,7 @@ function makeViewWalletForm() {
 function viewWalletSelectorHandler() {
     console.log('viewWalletSelectorHandler');
     const viewWalletSelector = document.getElementById("viewWalletSelector");
+    viewWallet.selectedWalletIdx = viewWalletSelector.selectedIndex;
     const contractAddr = viewWalletSelector.value;
     if (!!contractAddr)
 	viewWalletView(contractAddr);
