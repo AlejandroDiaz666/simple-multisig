@@ -40,7 +40,6 @@ body {
 #ethereumTile {
     top: 170px;
 }
-
 #howTile:hover, #ethereumTile:hover {
     cursor: pointer;
 }
@@ -80,6 +79,9 @@ body {
     font-size: 20px;
     font-family: lato;
     overflow-y: scroll;
+}
+#bigModal p {
+    margin-right: 6em;
 }
 .closeX {
     float: right;

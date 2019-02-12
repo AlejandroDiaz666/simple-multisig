@@ -2,6 +2,7 @@
 const common = require('./common');
 const ether = require('./ether');
 const smsEther = require('./smsEther');
+const smsUtil = require('./smsUtil');
 const newWallet = require('./newWallet');
 const viewWallet = require('./viewWallet');
 const loadWallet = require('./loadWallet');
@@ -37,6 +38,7 @@ function setCommonButtonHandlers() {
     document.getElementById('loadButton').addEventListener('click', loadWallet.doLoadWallet);
     document.getElementById('viewButton').addEventListener('click', viewWallet.doViewWallet);
     document.getElementById('xactButton').addEventListener('click', xaction.doXaction);
+    document.getElementById('howTile').addEventListener('click', () => showBigModal(smsUtil.help));
     document.getElementById('ethereumTile').addEventListener('click', () => showBigModal(smsEther.source));
     document.getElementById('bigModalClose').addEventListener('click', () => showBigModal(null));
 }
@@ -140,22 +142,4 @@ function showBigModal(content) {
     } else {
 	common.replaceElemClassFromTo('bigModal', 'visibleB', 'hidden', true)
     }
-}
-
-
-function disableAllButtons() {
-    common.setMenuButtonState('newButton',  'Disabled');
-    common.setMenuButtonState('loadButton', 'Disabled');
-    common.setMenuButtonState('viewButton', 'Disabled');
-    common.setMenuButtonState('xactButton', 'Disabled');
-
-    document.getElementById('AopnCurPurchaseButton').disabled = true;
-    document.getElementById('BopnCurPurchaseButton').disabled = true;
-    document.getElementById('withdrawAButton').disabled = true;
-    document.getElementById('withdrawBButton').disabled = true;
-    document.getElementById('AclsPrvClaimWinButton').disabled = true;
-    document.getElementById('BclsPrvClaimWinButton').disabled = true;
-    document.getElementById('AplpRedeemButton').disabled = true;
-    document.getElementById('BplpRedeemButton').disabled = true;
-    document.getElementById('withdrawDividendsButton').disabled = true;
 }
