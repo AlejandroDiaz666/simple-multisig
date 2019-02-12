@@ -25,7 +25,7 @@ const xaction = module.exports = {
     setButtonHandlers: function() {
 	console.log('xaction: setButtonHandlers 0');
 	document.getElementById('xactionWalletSelector').addEventListener('change', xactionWalletSelectorHandler);
-	document.getElementById('xactionToInput').addEventListener('change', savableChangeHandler);
+	document.getElementById('xactionToInput').addEventListener('change', toAddrChangeHandler);
 	document.getElementById('xactionValueInput').addEventListener('change', savableChangeHandler);
 	document.getElementById('xactionUnitSelector').addEventListener('change', savableChangeHandler);
 	document.getElementById('xactionNonceInput').addEventListener('change', savableChangeHandler);

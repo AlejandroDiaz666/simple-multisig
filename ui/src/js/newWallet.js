@@ -75,19 +75,32 @@ function updateNewWalletForm() {
 function addAccountHandler() {
     console.log('addAccountHandler');
     const addAccountAddrInput = document.getElementById('addAccountAddrInput');
-    const newAccountAddr = addAccountAddrInput.value;
-    if (!common.web3.isAddress(newAccountAddr)) {
-	alert('Error!\n\n' + newAccountAddr + ' is not a valid address!');
+    const addAccountLabelInput = document.getElementById('addAccountLabelInput');
+    let newAccountAddr = addAccountAddrInput.value;
+    if (newAccountAddr.indexOf('(') >= 0) {
+	//for ens names, actual addr is beween parens
+	newAccountAddr = newAccountAddr.replace(/[^\(]*\(([^]*)\).*/, "$1");
+    }
+    if (!ether.validateAddr(newAccountAddr)) {
+	ether.ensLookup(newAccountAddr, function(err, addr) {
+	    if (!!err || !addr) {
+		alert('Error!\n\n' + newAccountAddr + ' is not a valid address!');
+		return;
+	    }
+	    if (!addAccountLabelInput.value)
+		addAccountLabelInput.value = newAccountAddr;
+	    addAccountAddrInput.value = addr;
+	    addAccountHandler();
+	});
 	return;
     }
-    console.log('addAccountHandler: 1');
+    console.log('addAccountHandler: newAccountAddr = ' + newAccountAddr);
     for (let i = 0; i < newWallet.acctList.length; ++i) {
 	if (newAccountAddr == newWallet.acctList[i]) {
 	    alert('Error!\n\n' + newAccountAddr + ' is already an owner!');
 	    return;
 	}
     }
-    const addAccountLabelInput = document.getElementById('addAccountLabelInput');
     let newAccountLabel = addAccountLabelInput.value;
     if (!newAccountLabel)
 	newAccountLabel = 'no label';
