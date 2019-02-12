@@ -28,7 +28,7 @@ deploy: all
 	mkdir release/css
 	mkdir release/images
 	mkdir release/bundle
-	cp $(HTMBLDDIR)/*.html $(HTMBLDDIR)/play release/
+	cp $(HTMBLDDIR)/*.html $(HTMBLDDIR)/wallet release/
 	cp $(IMGBLDDIR)/* release/images/
 	cp $(CSSBLDDIR)/*_TIMESTAMP*.css release/css/
 	cp $(JSBLDDIR)/index_TIMESTAMP*.js release/bundle/
