@@ -66,6 +66,36 @@ body {
     width: 100%;
     text-align: center;
 }
+@media (max-width: 1405px) {
+    #howTile, #ethereumTile {
+	top: 30px;
+	left: 100%;
+	width: 160px;
+	height: 67px;
+    }
+    #howTile {
+	top: 30px;
+    }
+    #ethereumTile {
+	top: 110px;
+    }
+    #howImg, #ethereumLogo {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 1px;
+	left: 50%;
+    }
+    #howImg {
+	transform: translateX(-29px);
+    }
+    #ethereumLogo {
+	transform: translateX(-25px);
+    }
+}
+
+
+
 #bigModal {
     position: fixed;
     width: 60%;
@@ -130,6 +160,13 @@ body {
     font-size: 18px;
     transform: translateX(-50%);
     color: black;
+}
+
+@media (max-width: 1550px) {
+    #mainTitleSpan, #versionSpan {
+	left: 540px;
+	transform: translateX(0px);
+    }
 }
 
 #topSection {
