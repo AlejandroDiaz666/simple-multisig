@@ -166,16 +166,8 @@ function loadJsonHandler() {
 	return;
     }
     const valueBN = common.numberToBN(transaction.value);
-    const numberAndUnits = ether.convertWeiBNToNumberAndUnits(valueBN);
+    valueAndUnitsToStdForm(valueBN);
     document.getElementById('xactionToInput').value = transaction.toAddr;
-    document.getElementById('xactionValueInput').value = numberAndUnits.number.toString(10);
-    const unitsElem = document.getElementById('xactionUnitSelector');
-    for (let option = unitsElem.firstChild; option !== null; option = option.nextSibling) {
-	if (option.value == numberAndUnits.multiplyer) {
-	    option.selected = true;
-	    break;
-	}
-    }
     document.getElementById('xactionData').value = transaction.dataHex;
     document.getElementById('xactionNonceInput').value = transaction.nonce;
     document.getElementById('xactionExecutor').value = transaction.executor;
@@ -280,9 +272,7 @@ function savableChangeHandler(clearSignatures) {
     let toAddr = xactionToInput.value;
     let executorAddr = xactionExecutor.value;
     const value = document.getElementById('xactionValueInput').value;
-    const units = document.getElementById('xactionUnitSelector').value;
-    const valueBN = common.numberToBN(value);
-    valueBN.imul(common.numberToBN(units));
+    const valueBN = parseValueAndUnits();
     const dataHex = document.getElementById('xactionData').value;
     const nonce = document.getElementById('xactionNonceInput').value;
     const gasLimit = document.getElementById('xactionGasInput').value;
@@ -424,10 +414,7 @@ function collectXactInfo() {
 	//for ens names, actual addr is beween parens
 	toAddr = toAddr.value.replace(/[^\(]*\(([^]*)\).*/, "$1");
     }
-    const value = document.getElementById('xactionValueInput').value;
-    const units = document.getElementById('xactionUnitSelector').value;
-    const valueBN = common.numberToBN(value);
-    valueBN.imul(common.numberToBN(units));
+    const valueBN = parseValueAndUnits();
     const nonce = document.getElementById('xactionNonceInput').value;
     const nonceBN = common.numberToBN(nonce);
     const dataHex = document.getElementById('xactionData').value;
@@ -447,4 +434,47 @@ function collectXactInfo() {
 		       gasLimitBN: gasLimitBN,
 		     };
     return(xactInfo);
+}
+
+
+//
+// convert a wei value to comfortable units
+// sets the value and units elems0
+//
+function valueAndUnitsToStdForm(valueWeiBN) {
+    const numberAndUnits = ether.convertWeiBNToNumberAndUnits(valueWeiBN);
+    document.getElementById('xactionValueInput').value = numberAndUnits.number.toString(10);
+    const unitsElem = document.getElementById('xactionUnitSelector');
+    for (let option = unitsElem.firstChild; option !== null; option = option.nextSibling) {
+	if (option.value == numberAndUnits.multiplyer) {
+	    option.selected = true;
+	    break;
+	}
+    }
+}
+
+
+//
+// calc value in wei from value and units
+// decimal in value is allowed
+//
+function parseValueAndUnits() {
+    let value = document.getElementById('xactionValueInput').value;
+    const units = document.getElementById('xactionUnitSelector').value;
+    let unitsBN = common.numberToBN(units);
+    const dotIdx = value.indexOf('.');
+    if (dotIdx >= 0) {
+	let endPart = '';
+	begPart = value.substring(0, dotIdx);
+	endPart = value.substring(dotIdx + 1);
+	const divisorBN = (new BN(10)).pow(new BN(endPart.length));
+	if (divisorBN.gt(unitsBN))
+	    alert('invalid value');
+	console.log('divisor = ' + divisorBN.toString(10) + ', unitsBN = ' + unitsBN.toString(10));
+	value = begPart + endPart;
+	unitsBN = unitsBN.div(divisorBN);
+	console.log('now unitsBN = ' + unitsBN.toString(10));
+    }
+    const valueBN = common.numberToBN(value);
+    return(valueBN.mul(unitsBN));
 }
