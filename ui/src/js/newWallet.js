@@ -133,8 +133,8 @@ function deployHandler() {
     common.showWaitingForMetaMask(true, false);
     const parmsHex = smsEther.abiEncodeConstructorParms(thresholdHex, sortedAcctList, ether.chainId);
     console.log('deployHandler: parmsHex = ' + parmsHex);
-    //gas estimates only work on mainnet
-    const gasLimit = (ether.chainId == 1) ? 0 : 1000000;
+    //gas estimates don't work for contract deploy
+    const gasLimit = 1000000;
     ether.deployContract(smsEther.abi, smsEther.bin, parmsHex, gasLimit, function(err, txid, contractInstance) {
 	common.showWaitingForMetaMask(false, false);
 	console.log('deployHandler: txid = ' + txid);
