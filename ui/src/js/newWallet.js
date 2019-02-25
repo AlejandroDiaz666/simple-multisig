@@ -87,7 +87,7 @@ function addAccountHandler() {
 		alert('Error!\n\n' + newAccountAddr + ' is not a valid address!');
 		return;
 	    }
-	    if (!addAccountLabelInput.value)
+	    if (!addAccountLabelInput.value || addAccountLabelInput.value == 'My Account')
 		addAccountLabelInput.value = newAccountAddr;
 	    addAccountAddrInput.value = addr;
 	    addAccountHandler();
