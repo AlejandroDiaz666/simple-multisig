@@ -189,8 +189,10 @@ function loadJsonHandler() {
 function toAddrChangeHandler() {
     document.getElementById('xactionSignButton').disabled = true;
     document.getElementById('xactionExecuteButton').disabled = true;
-    for (let i = 0; i < xaction.signatureInputs.length; ++i)
-        xaction.signatureInputs[i].value = '';
+    if (!!xaction.signatureInputs) {
+	for (let i = 0; i < xaction.signatureInputs.length; ++i)
+            xaction.signatureInputs[i].value = '';
+    }
     const xactionToInput = document.getElementById('xactionToInput');
     let toAddr = xactionToInput.value;
     if (!toAddr)
@@ -303,7 +305,7 @@ function signHandler() {
     let toAddr = xactionToInput.value;
     if (toAddr.indexOf('(') >= 0) {
 	//for ens names, actual addr is beween parens
-	toAddr = msgAddrArea.value.replace(/[^\(]*\(([^]*)\).*/, "$1");
+	toAddr = xactionToInput.value.replace(/[^\(]*\(([^]*)\).*/, "$1");
     }
     if (!toAddr || !common.web3.isAddress(toAddr)) {
         alert('Error comupting transaction hash:\n\n' + 'Transaction destination, ' + toAddr + ' is not a valid address!');
@@ -412,7 +414,7 @@ function collectXactInfo() {
     let toAddr = document.getElementById('xactionToInput').value;
     if (toAddr.indexOf('(') >= 0) {
 	//for ens names, actual addr is beween parens
-	toAddr = toAddr.value.replace(/[^\(]*\(([^]*)\).*/, "$1");
+	toAddr = toAddr.replace(/[^\(]*\(([^]*)\).*/, "$1");
     }
     const valueBN = parseValueAndUnits();
     const nonce = document.getElementById('xactionNonceInput').value;
@@ -421,7 +423,7 @@ function collectXactInfo() {
     let executorAddr = document.getElementById('xactionExecutor').value;
     if (executorAddr.indexOf('(') >= 0) {
 	//for ens names, actual addr is beween parens
-	executorAddr = executorAddr.value.replace(/[^\(]*\(([^]*)\).*/, "$1");
+	executorAddr = executorAddr.replace(/[^\(]*\(([^]*)\).*/, "$1");
     }
     const gas = document.getElementById('xactionGasInput').value;
     const gasLimitBN = common.numberToBN(gas);
